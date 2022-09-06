@@ -36,18 +36,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //this.setLayout(gridLayout);
         this.setFocusable(true);
         startGame();
-
+        System.out.println(newWord());
     }
 
     public void startGame() {
         timer = new Timer(DELAY, this);
         timer.start();
-        System.out.println(newWord());
     }
     public String newWord() {
         String w = "";
         try {
-            FetchWord.genNewWord();
+            w = FetchWord.genNewWord();
         } catch(IOException | InterruptedException e) {
             System.out.println(e);
         }

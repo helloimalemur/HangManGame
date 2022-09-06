@@ -17,13 +17,13 @@ public class FetchWord {
         return word;
     }
 
-    public static void genNewWord() throws IOException, InterruptedException {
-        //word via get api
+    public static String genNewWord() throws IOException, InterruptedException {
+        //word via GET request
         //https://random-word-api.herokuapp.com/word
         String url = "https://random-word-api.herokuapp.com/word";
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest httpRequest = HttpRequest.newBuilder(URI.create(url)).build();
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println(httpResponse.body());
+        return httpResponse.body();
     }
 }
