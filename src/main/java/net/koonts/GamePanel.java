@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
+    String title = "Hangman";
+    boolean running = false;
     static final int SCREEN_WIDTH = 600;
     static final int SCREEN_HEIGHT = 600;
     static final int UNIT_SIZE = 25;
@@ -35,22 +37,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         this.setPreferredSize(new Dimension(600,600));
         //this.setLayout(gridLayout);
         this.setFocusable(true);
+        this.addKeyListener(this);
         startGame();
-        System.out.println(newWord());
     }
 
     public void startGame() {
         timer = new Timer(DELAY, this);
+        running = true;
         timer.start();
     }
 
 
     public void draw(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.red);
-        g.fillOval(getWidth()/4, getHeight()/4,
-                getWidth()/2, getHeight()/2);
+        if (running) {
+            g.setColor(Color.white);
+            Font font = new Font("Ink Free", Font.BOLD, 40);
+            g.setFont(font);
+            g.drawString(title, SCREEN_WIDTH- getFontMetrics(font).stringWidth(title)/2, getFont().getSize());
+        } else {
+            gameOver();
+        }
+
     }
 
 
@@ -64,6 +71,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return w;
     }
 
+    public void resetGame() {
+        //reset game variables
+        //new word
+        startGame();
+    }
+    public void gameOver() {
+        running = false;
+        timer.stop();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponents(g);
@@ -72,8 +89,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (running) {
+            //get new word
 
-
+        } else {
+            timer.stop();
+        }
     }
 
     @Override
@@ -83,7 +104,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyChar() == 'z') {
+            System.exit(0);
+        }
     }
 
     @Override
