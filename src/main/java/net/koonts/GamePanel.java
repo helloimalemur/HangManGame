@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +36,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         //this.setLayout(gridLayout);
         this.setFocusable(true);
         startGame();
+
     }
 
     public void startGame() {
         timer = new Timer(DELAY, this);
         timer.start();
+        System.out.println(newWord());
+    }
+    public String newWord() {
+        String w = "";
+        try {
+            FetchWord.genNewWord();
+        } catch(IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+        return w;
     }
 
     public void draw(Graphics g) {
