@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         button.setFont(textAndButton);
         button.setLabel("Guess!");
         button.setBounds(10,500,80,30);
+        button.addActionListener(this);
         add(button);
         textField.setBounds(100,505,200,20);
         textField.setFont(textAndButton);
@@ -75,7 +76,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 
-    public void getGuess() {
+    public void checkGuess() {
+        String guess = textField.getText();
+        textField.setText("");
 
     }
 
@@ -127,7 +130,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     //user input
     @Override
     public void actionPerformed(ActionEvent e) {
-        //if(e.getSource() == ) {}
+        if(e.getSource() == button) {
+            checkGuess();
+        }
 
         if (running) {
             //get new word
