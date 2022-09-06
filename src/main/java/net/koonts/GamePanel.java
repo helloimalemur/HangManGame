@@ -1,3 +1,4 @@
+//https://inventwithpython.com/invent4thed/images/00081.jpeg
 //http://random-word-api.herokuapp.com/home
 //https://random-word-api.herokuapp.com/word
 //https://www.wikihow.com/Play-Hangman
@@ -23,6 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
     String word;
+    char[] maskedWord;
     String currentGuess;
     List<String> guesses = new ArrayList<>();
     int guessesRemaining;
@@ -42,33 +44,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void startGame() {
-        timer = new Timer(DELAY, this);
+        //timer = new Timer(DELAY, this);
         running = true;
-        timer.start();
+        //timer.start();
     }
 
 
-    public void draw(Graphics g) {
-        if (running) {
-            g.setColor(Color.white);
-            Font font = new Font("Ink Free", Font.BOLD, 40);
-            g.setFont(font);
-            g.drawString(title, SCREEN_WIDTH- getFontMetrics(font).stringWidth(title)/2, getFont().getSize());
-        } else {
-            gameOver();
-        }
-
-    }
 
 
-    public String newWord() {
-        String w = "";
+
+    public void newWord() {
         try {
-            w = FetchWord.genNewWord();
+            word = FetchWord.genNewWord();
         } catch(IOException | InterruptedException e) {
             System.out.println(e);
         }
-        return w;
+        char[] wordarray = new char[word.length()];
+        for(int i=0;i<word.length();i++) {
+            wordarray[i] = word.charAt(i);
+        }
     }
 
     public void resetGame() {
@@ -81,12 +75,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer.stop();
     }
 
+
+    ///Graphics
+    public void draw(Graphics g) {
+        if (running) {
+            g.setColor(Color.white);
+            Font font = new Font("Ink Free", Font.BOLD, 40);
+            g.setFont(font);
+            g.drawString(title, (SCREEN_WIDTH - getFontMetrics(font).stringWidth(title))/2, (getFont().getSize())*2);
+
+        } else {
+            gameOver();
+        }
+
+    }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponents(g);
         draw(g);
     }
-
+    //user input
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
