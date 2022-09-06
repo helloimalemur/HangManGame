@@ -7,16 +7,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class FetchWord {
-    String word;
 
     FetchWord() { }
 
-
-    public String getNewWord() {
-        //word getter
-        return word;
-    }
-
+    //static word getter
     public static String genNewWord() throws IOException, InterruptedException {
         //word via GET request
         //https://random-word-api.herokuapp.com/word

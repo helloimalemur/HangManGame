@@ -43,6 +43,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         timer = new Timer(DELAY, this);
         timer.start();
     }
+
+
+    public void draw(Graphics g) {
+        g.setColor(Color.orange);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.red);
+        g.fillOval(getWidth()/4, getHeight()/4,
+                getWidth()/2, getHeight()/2);
+    }
+
+
     public String newWord() {
         String w = "";
         try {
@@ -51,14 +62,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             System.out.println(e);
         }
         return w;
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.red);
-        g.fillOval(getWidth()/4, getHeight()/4,
-                getWidth()/2, getHeight()/2);
     }
 
     @Override
