@@ -42,10 +42,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         this.setBackground(Color.black);
         this.setVisible(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
+        Font textAndButton = new Font("Ink Free", Font.BOLD, 15);
+        setLayout(null);
         button.setLocation(0,0);
-        button.setFont(font);
+        button.setPreferredSize(new Dimension(80,40));
+        button.setFont(textAndButton);
         button.setLabel("Guess!");
+        button.setBounds(10,500,80,30);
         add(button);
+        textField.setBounds(100,505,200,20);
+        textField.setFont(textAndButton);
+        textField.setPreferredSize(new Dimension(200,20));
+        add(textField);
+
+
 
 
 
