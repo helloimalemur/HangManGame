@@ -12,6 +12,7 @@ public class GameFrame extends JFrame {
         setBackground(Color.black);
         setResizable(false);
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
     }
 
