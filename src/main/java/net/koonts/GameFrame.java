@@ -12,11 +12,7 @@ public class GameFrame extends JFrame {
         setBackground(Color.black);
         setResizable(false);
         setVisible(true);
-    }
-
-    @Override
-    public void paintComponents(Graphics g) {
-        super.paintComponents(g);
+        this.pack();
     }
 
 }

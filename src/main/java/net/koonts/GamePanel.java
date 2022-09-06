@@ -18,24 +18,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static final int SCREEN_HEIGHT = 600;
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
+    static final int DELAY = 100;
     String word;
     String currentGuess;
     List<String> guesses = new ArrayList<>();
     int guessesRemaining;
     GridLayout gridLayout = new GridLayout(3,3);
+    Timer timer;
 
 
     GamePanel() {
         this.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setVisible(true);
-        this.setLayout(gridLayout);
+        this.setPreferredSize(new Dimension(600,600));
+        //this.setLayout(gridLayout);
+        this.setFocusable(true);
+        startGame();
+    }
 
+    public void startGame() {
+        timer = new Timer(DELAY, this);
+        timer.start();
+    }
 
+    public void draw(Graphics g) {
+        g.setColor(Color.orange);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.red);
+        g.fillOval(getWidth()/4, getHeight()/4,
+                getWidth()/2, getHeight()/2);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponents(g);
+        draw(g);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
 
     }
 
