@@ -22,12 +22,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     String currentGuess;
     List<String> guesses = new ArrayList<>();
     int guessesRemaining;
+    GridLayout gridLayout = new GridLayout(3,3);
 
 
     GamePanel() {
         this.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setVisible(true);
+        this.setLayout(gridLayout);
+
 
     }
 
