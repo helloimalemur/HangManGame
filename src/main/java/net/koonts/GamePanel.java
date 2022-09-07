@@ -25,8 +25,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
     String word;
+    String finalword;
     char[] maskedWord;
     char[] wordArray;
+    char[] formattedWord;
     String currentGuess;
     List<String> guesses = new ArrayList<>();
     int guessesRemaining;
@@ -78,6 +80,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public void checkGuess() {
         String guess = textField.getText();
+        wordArray.toString().replace("[","");
+        wordArray.toString().replace("]","");
+        wordArray.toString().replace(",","");
+        System.out.println("comparing;");
+        System.out.println(guess);
+        System.out.println(wordArray);
+        int x = wordArray.hashCode();
+        int y = guess.hashCode();
+        if (x == y) {
+            System.out.println("WIN");
+        }
         textField.setText("");
 
     }
@@ -89,20 +102,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             System.out.println(e);
         }
         System.out.println(word);
-        wordArray = new char[word.length()];
-        maskedWord = new char[word.length()];
-        char[] temp = new char[word.length()-4];
+        wordArray = new char[word.length()-4];
+        maskedWord = new char[word.length()-4];
+        formattedWord = new char[word.length()-4];
         int j = 0;
         for(int i=2;i<word.length()-2;i++){
-            temp[j] = word.charAt(i);
-            System.out.println(i);
-            System.out.println(j);
+            formattedWord[j] = word.charAt(i);
+            //System.out.println(i);
+            //System.out.println(j);
             j = j+1;
 
         }
-        System.out.println(Arrays.toString(temp));
-        for(int i=0;i<word.length();i++) {
-            wordArray[i] = word.charAt(i);
+        System.out.println(Arrays.toString(formattedWord));
+        for(int i=0;i<(word.length()-4);i++) {
+            wordArray[i] = formattedWord[i];
             maskedWord[i] = '-';
         }
     }
