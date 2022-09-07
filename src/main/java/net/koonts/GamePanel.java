@@ -91,7 +91,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         System.out.println(word);
         wordArray = new char[word.length()];
         maskedWord = new char[word.length()];
+        char[] temp = new char[word.length()-4];
+        int j = 0;
+        for(int i=2;i<word.length()-2;i++){
+            temp[j] = word.charAt(i);
+            System.out.println(i);
+            System.out.println(j);
+            j = j+1;
 
+        }
+        System.out.println(Arrays.toString(temp));
         for(int i=0;i<word.length();i++) {
             wordArray[i] = word.charAt(i);
             maskedWord[i] = '-';
