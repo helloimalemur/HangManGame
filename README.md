@@ -1,4 +1,5 @@
 # HangManGame
+(Unfinished)
 Simple HangManGame which grabs random word from an API
 
 
