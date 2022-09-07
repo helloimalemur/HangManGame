@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static public final int SCREEN_WIDTH = 1000;
     static public final int SCREEN_HEIGHT = 600;
     boolean running = false;
+    boolean won = false;
     static final int UNIT_SIZE = 25;
     static int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
@@ -29,6 +30,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     char[] maskedWord;
     char[] wordArray;
     char[] formattedWord;
+    char[] guessArray;
+    boolean[] matches;
     String currentGuess;
     List<String> guesses = new ArrayList<>();
     int guessesRemaining;
@@ -57,12 +60,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         textField.setFont(textAndButton);
         textField.setPreferredSize(new Dimension(200,20));
         add(textField);
-
-
-
-
-
-
         this.setFocusable(true);
         this.addKeyListener(this);
         startGame();
@@ -83,13 +80,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         wordArray.toString().replace("[","");
         wordArray.toString().replace("]","");
         wordArray.toString().replace(",","");
-        System.out.println("comparing;");
-        System.out.println(guess);
-        System.out.println(wordArray);
-        String temp = Arrays.toString(wordArray);
-        if (temp.equals(guess)) { //comparison is not working
-            System.out.println("WIN");
+
+        guessArray = new char[guess.length()];
+        for (int i = 0; i < guess.length(); i++) {
+            guessArray[i] = guess.charAt(i);
         }
+        System.out.println(wordArray);
+        System.out.println(guessArray);
+        int truths = 0;
+        matches = new boolean[wordArray.length];
+        for (int i=0;i<wordArray.length;i++) {
+            if ((Character.compare(wordArray[i],guessArray[i]))==0) {
+                matches[i] = true;
+                System.out.println("match");
+                truths +=1;
+            } else {
+                matches[i] = false;
+            }
+            if (truths == wordArray.length) {
+                won = true;
+            } else { won = false;}
+            System.out.println(truths);
+        }
+        System.out.println("comparing;");
+        System.out.println(guessArray);
+        System.out.println(wordArray);
+        System.out.println("Result: " + won);
         textField.setText("");
 
     }
@@ -100,23 +116,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         } catch(IOException | InterruptedException e) {
             System.out.println(e);
         }
-        System.out.println(word);
         wordArray = new char[word.length()-4];
         maskedWord = new char[word.length()-4];
         formattedWord = new char[word.length()-4];
         int j = 0;
         for(int i=2;i<word.length()-2;i++){
             formattedWord[j] = word.charAt(i);
-            //System.out.println(i);
-            //System.out.println(j);
             j = j+1;
 
         }
-        System.out.println(Arrays.toString(formattedWord));
+
         for(int i=0;i<(word.length()-4);i++) {
             wordArray[i] = formattedWord[i];
             maskedWord[i] = '-';
         }
+        System.out.println(wordArray);
     }
 
     public void resetGame() {
