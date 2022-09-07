@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static public final int SCREEN_WIDTH = 1000;
     static public final int SCREEN_HEIGHT = 600;
     boolean running = false;
-    boolean won = false;
+    boolean matchWord = false;
     static final int UNIT_SIZE = 25;
     static int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
@@ -75,11 +75,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 
-    public void checkGuess() {
+    public boolean checkGuess() {
         String guess = textField.getText();
-        wordArray.toString().replace("[","");
-        wordArray.toString().replace("]","");
-        wordArray.toString().replace(",","");
+        wordArray.toString().replace("[", "");
+        wordArray.toString().replace("]", "");
+        wordArray.toString().replace(",", "");
 
         guessArray = new char[guess.length()];
         for (int i = 0; i < guess.length(); i++) {
@@ -89,25 +89,52 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         System.out.println(guessArray);
         int truths = 0;
         matches = new boolean[wordArray.length];
-        for (int i=0;i<wordArray.length;i++) {
-            if ((Character.compare(wordArray[i],guessArray[i]))==0) {
-                matches[i] = true;
-                System.out.println("match");
-                truths +=1;
-            } else {
-                matches[i] = false;
+        if (wordArray.length == guessArray.length) {
+            for (int i = 0; i < wordArray.length; i++) {
+                if ((Character.compare(wordArray[i], guessArray[i])) == 0) {
+                    matches[i] = true; //store matched characters in array
+                    System.out.println("match");
+                    truths += 1;
+                } else {
+                    matches[i] = false;
+                }
+                if (truths == wordArray.length) {
+                    matchWord = true;
+                } else {
+                    matchWord = false;
+                }
             }
-            if (truths == wordArray.length) {
-                won = true;
-            } else { won = false;}
-            System.out.println(truths);
+        } else {
+            for (int j = 0; j < wordArray.length; j++) {
+                if (Character.compare(guessArray[0], wordArray[j]) == 0) {
+                    matches[j] = true; //store matched characters in array
+                    System.out.println("match");
+                    truths += 1;
+                } else {
+                    matches[j] = false;
+                }
+
+            }
+            for (int k = 0; k < maskedWord.length; k++) {
+                if (matches[k]) {
+                    maskedWord[k] = wordArray[k];// show matches
+                    System.out.println(maskedWord[k]);
+                }
+            }
+
         }
+
+        System.out.println(truths);
+
+
+
         System.out.println("comparing;");
         System.out.println(guessArray);
         System.out.println(wordArray);
-        System.out.println("Result: " + won);
+        System.out.println("Result: " + matchWord);
         textField.setText("");
-
+        //repaint();
+        return matchWord;
     }
 
     public void newWord() {
