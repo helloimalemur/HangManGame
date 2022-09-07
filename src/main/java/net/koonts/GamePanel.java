@@ -192,12 +192,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     //user input
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == button) {
-            checkGuess();
-        }
+
 
         if (running) {
             //get new word
+            if(e.getSource() == button) {
+                checkGuess();
+            }
 
         } else {
             timer.stop();
