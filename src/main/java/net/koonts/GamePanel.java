@@ -86,9 +86,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         System.out.println("comparing;");
         System.out.println(guess);
         System.out.println(wordArray);
-        int x = wordArray.hashCode();
-        int y = guess.hashCode();
-        if (x == y) {
+        String temp = Arrays.toString(wordArray);
+        if (temp.equals(guess)) { //comparison is not working
             System.out.println("WIN");
         }
         textField.setText("");
