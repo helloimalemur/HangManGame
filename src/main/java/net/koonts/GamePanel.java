@@ -66,10 +66,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void startGame() {
-        //timer = new Timer(DELAY, this);
+        timer = new Timer(DELAY, this);
         running = true;
         newWord();
-        //timer.start();
+        timer.start();
     }
 
 
@@ -80,8 +80,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         wordArray.toString().replace("[", "");
         wordArray.toString().replace("]", "");
         wordArray.toString().replace(",", "");
+        if (guess.length()>0) {
+            guessArray = new char[guess.length()];
+        } else {
+            guessArray = new char[0];
+        }
 
-        guessArray = new char[guess.length()];
         for (int i = 0; i < guess.length(); i++) {
             guessArray[i] = guess.charAt(i);
         }
@@ -105,16 +109,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 }
             }
         } else {
-            for (int j = 0; j < wordArray.length; j++) {
-                if (Character.compare(guessArray[0], wordArray[j]) == 0) {
-                    matches[j] = true; //store matched characters in array
-                    System.out.println("match");
-                    truths += 1;
-                } else {
-                    matches[j] = false;
-                }
+            if (guessArray.length>0) {
+                for (int j = 0; j < wordArray.length; j++) {
 
+                    if (Character.compare(guessArray[0], wordArray[j]) == 0) {
+                        matches[j] = true; //store matched characters in array
+                        System.out.println("match");
+                        truths += 1;
+                    } else {
+                        matches[j] = false;
+                    }
+                }
             }
+
             for (int k = 0; k < maskedWord.length; k++) {
                 if (matches[k]) {
                     maskedWord[k] = wordArray[k];// show matches
@@ -133,7 +140,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         System.out.println(wordArray);
         System.out.println("Result: " + matchWord);
         textField.setText("");
-        //repaint();
+        repaint();
+        int l=0;
+        if (guessArray.length==0) {
+            int confirm = 0;
+            for (int m=0;m<wordArray.length;m++) {
+                if ((Character.compare(wordArray[m], maskedWord[l])) == 0) {
+                    matches[m] = true; //store matched characters in array
+                    confirm += 1;
+                    l++;
+                } else {
+                    matches[m] = false;
+                    l++;
+                }
+                if (confirm == wordArray.length) {
+                    matchWord = true;
+                } else {
+                    matchWord = false;
+                }
+            }
+        }
+
         return matchWord;
     }
 
@@ -186,7 +213,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponents(g);
+        super.paintComponent(g);
         draw(g);
     }
     //user input
