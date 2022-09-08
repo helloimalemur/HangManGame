@@ -76,8 +76,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
     public boolean checkGuess() {
+        //grab user guess and create char[] of corresponding size
         String guess = textField.getText();
-
         if (guess.length()>0) {
             guessArray = new char[guess.length()];
         } else {
@@ -87,31 +87,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             guessArray[i] = guess.charAt(i);
         }
 
-
-        System.out.println(wordArray);
-        System.out.println(guessArray);
+        //section compares guess and word array
         int truths = 0;
-        matches = new boolean[wordArray.length];
-        if (wordArray.length == guessArray.length) {
+        matches = new boolean[wordArray.length];// array to store matched char
+        if (wordArray.length == guessArray.length) { //verify word and guess array are the same size
             for (int i = 0; i < wordArray.length; i++) {
-                if ((Character.compare(wordArray[i], guessArray[i])) == 0) {
-                    matches[i] = true; //store matched characters in array
+                if ((Character.compare(wordArray[i], guessArray[i])) == 0) {////compare word and guess array
+                    matches[i] = true; //store match true in matches array in position relative to word/guess char
                     System.out.println("match");
-                    truths += 1;
+                    truths += 1; //number of matches
                 } else {
                     matches[i] = false;
                 }
-                if (truths == wordArray.length) {
+                if (truths == wordArray.length) { //if the number of matches equals the
+                    //// number of char in word, guess is correct
                     matchWord = true;
                 } else {
                     matchWord = false;
                 }
             }
-        } else {
-            if (guessArray.length>0) {
+        } else { // if word and guess array are NOT the same size
+            if (guessArray.length>0) { // and guess array is greater than 0
                 for (int j = 0; j < wordArray.length; j++) {
-
-                    if (Character.compare(guessArray[0], wordArray[j]) == 0) {
+                    if (Character.compare(guessArray[0], wordArray[j]) == 0) {//compare guess and word array
                         matches[j] = true; //store matched characters in array
                         System.out.println("match");
                         truths += 1;
@@ -119,32 +117,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                         matches[j] = false;
                     }
                 }
+
             }
 
+            //if there is no match yet /guess and word array are not the same size
             for (int k = 0; k < maskedWord.length; k++) {
-                if (matches[k]) {
-                    maskedWord[k] = wordArray[k];// show matches
-                    System.out.println(maskedWord[k]);
+                if (matches[k]) { //for positions in matches[] which hold a good guess
+                    maskedWord[k] = wordArray[k];// show matches by replacing dash with corresponding character
                 }
             }
-
         }
-
-        System.out.println(truths);
 
 
 
         System.out.println("comparing;");
         System.out.println(guessArray);
-        System.out.println(wordArray);
+
         System.out.println("Result: " + matchWord);
         textField.setText("");
         repaint();
         int l=0;
-        if (guessArray.length==0) {
+        if (guessArray.length==0) {// no answer input
             int confirm = 0;
-            for (int m=0;m<wordArray.length;m++) {
-                if ((Character.compare(wordArray[m], maskedWord[l])) == 0) {
+            for (int m=0;m<wordArray.length;m++) { //iterate over wordArray
+                if ((Character.compare(wordArray[m], maskedWord[l])) == 0) { //compare wordArray and maskedWord
                     matches[m] = true; //store matched characters in array
                     confirm += 1;
                     l++;
@@ -171,17 +167,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         }
         wordArray = new char[word.length()-4];//
         maskedWord = new char[word.length()-4];//create char[] remove 4 unwanted characters by iterating over
-        formattedWord = new char[word.length()-4]; //
+        formattedWord = new char[word.length()-4]; // global wordArray and maskedWord are used
         int j = 0;
         for(int i=2;i<word.length()-2;i++){
             wordArray[j] = word.charAt(i);
-            maskedWord[j] = '-';
+            maskedWord[j] = '-'; //set maskedWord to all dashes
             j = j+1;
-
         }
         wordArray.toString().replace("[", "");
         wordArray.toString().replace("]", "");
         wordArray.toString().replace(",", "");
+        System.out.println(wordArray);
     }
 
     public void resetGame() {
