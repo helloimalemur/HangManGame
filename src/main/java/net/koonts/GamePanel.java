@@ -209,12 +209,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.white);
             g.setFont(font);
             g.drawString(title, (SCREEN_WIDTH - getFontMetrics(font).stringWidth(title))/2, (getFont().getSize())*3);
+            String guessesRemaining = "Guesses remaining: " + (guessLimit-guessCount);
+            g.drawString(guessesRemaining, ((SCREEN_WIDTH-getFontMetrics(font).stringWidth(guessesRemaining))/2), 80);
             g.drawString(Arrays.toString(maskedWord), (SCREEN_WIDTH - getFontMetrics(font).stringWidth(Arrays.toString(maskedWord)))/2, SCREEN_HEIGHT-(getFont().getSize())*3);
             if (matchWord) {
                 g.drawString("WINNER",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
                 playerWon();
             }
-            if ((guessCount>guessLimit)){
+            if ((guessCount>=guessLimit)){
                 g.drawString("LOSE",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
                 gameOver();
             }
