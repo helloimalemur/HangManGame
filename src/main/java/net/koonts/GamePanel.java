@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static final int UNIT_SIZE = 25;
     static int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
+    int guessLimit;
+    int guessCount;
     String word;
     String finalword;
     char[] maskedWord;
@@ -34,7 +37,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     boolean[] matches;
     String currentGuess;
     List<String> guesses = new ArrayList<>();
-    int guessesRemaining;
     GridLayout gridLayout = new GridLayout(3,3);
     Button button = new Button();
     TextField textField = new TextField();
@@ -70,11 +72,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         running = true;
         newWord();
         timer.start();
+        guessCount = 0;
     }
 
 
 
     public boolean checkGuess() {
+        guessCount += 1;
         //grab user guess and create char[] of corresponding size
         String guess = textField.getText();
         if (guess.length()>0) {
@@ -101,10 +105,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 if (truths == wordArray.length) { //if the number of matches equals the
                     //// number of char in word, guess is correct
                     matchWord = true;
+                    for (int k = 0; k < maskedWord.length; k++) {
+                        if (matches[k]) { //for positions in matches[] which hold a good guess
+                            maskedWord[k] = wordArray[k];// show matches by replacing dash with corresponding character
+                        }
+                    }
                 } else {
                     matchWord = false;
                 }
             }
+
         } else { // if word and guess array are NOT the same size
             if (guessArray.length>0) { // and guess array is greater than 0
                 for (int j = 0; j < wordArray.length; j++) {
@@ -176,6 +186,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         wordArray.toString().replace("[", "");
         wordArray.toString().replace("]", "");
         wordArray.toString().replace(",", "");
+        guessLimit = (int) (wordArray.length*1.75);
         System.out.println(wordArray);
     }
 
@@ -186,7 +197,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
     public void gameOver() {
         running = false;
-        timer.stop();
+    }
+    public void playerWon() {
+        running = false;
     }
 
 
@@ -197,9 +210,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             g.setFont(font);
             g.drawString(title, (SCREEN_WIDTH - getFontMetrics(font).stringWidth(title))/2, (getFont().getSize())*3);
             g.drawString(Arrays.toString(maskedWord), (SCREEN_WIDTH - getFontMetrics(font).stringWidth(Arrays.toString(maskedWord)))/2, SCREEN_HEIGHT-(getFont().getSize())*3);
-
+            if (matchWord) {
+                g.drawString("WINNER",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
+                playerWon();
+            }
+            if ((guessCount>guessLimit)){
+                g.drawString("LOSE",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
+                gameOver();
+            }
         } else {
-            gameOver();
+            timer.stop();
         }
 
     }
