@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static public final int SCREEN_HEIGHT = 600;
     boolean running = false;
     boolean matchWord = false;
+    boolean lost = false;
     static final int UNIT_SIZE = 25;
     static int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY = 100;
@@ -78,6 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
     public boolean checkGuess() {
+
         guessCount += 1;
         //grab user guess and create char[] of corresponding size
         String guess = textField.getText();
@@ -130,11 +132,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             }
 
             //if there is no match yet /guess and word array are not the same size
-            for (int k = 0; k < maskedWord.length; k++) {
-                if (matches[k]) { //for positions in matches[] which hold a good guess
-                    maskedWord[k] = wordArray[k];// show matches by replacing dash with corresponding character
-                }
-            }
+            //for (int k = 0; k < maskedWord.length; k++) {
+            //    if (matches[k]) { //for positions in matches[] which hold a good guess
+            //        maskedWord[k] = wordArray[k];// show matches by replacing dash with corresponding character
+            //    }
+            //}
         }
 
 
@@ -159,6 +161,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 }
                 if (confirm == wordArray.length) {
                     matchWord = true;
+                    unmaskWord();
                 } else {
                     matchWord = false;
                 }
@@ -196,13 +199,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         startGame();
     }
     public void gameOver() {
-        for (int k = 0; k < maskedWord.length; k++) {
-            maskedWord[k] = wordArray[k];
-        }
         running = false;
     }
-    public void playerWon() {
-        running = false;
+    public void unmaskWord() {
+        for (int k = 0; k < wordArray.length; k++) {
+            maskedWord[k] = wordArray[k];
+        }
     }
 
 
@@ -216,15 +218,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             g.drawString(guessesRemaining, ((SCREEN_WIDTH-getFontMetrics(font).stringWidth(guessesRemaining))/2), 80);
             g.drawString(Arrays.toString(maskedWord), (SCREEN_WIDTH - getFontMetrics(font).stringWidth(Arrays.toString(maskedWord)))/2, SCREEN_HEIGHT-(getFont().getSize())*3);
             if (matchWord) {
+                unmaskWord();
                 g.drawString("WINNER",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
-                playerWon();
+
             }
             if ((guessCount>=guessLimit)){
+                unmaskWord();
                 g.drawString("LOSE",(SCREEN_WIDTH - getFontMetrics(font).stringWidth("WINNER"))/2, SCREEN_HEIGHT/2);
-                gameOver();
+                lost = true;
+                running = false;
             }
         } else {
-            timer.stop();
+
         }
 
     }
@@ -243,6 +248,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
             if(e.getSource() == button) {
                 checkGuess();
             }
+
 
         } else {
             timer.stop();
