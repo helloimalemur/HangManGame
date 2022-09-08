@@ -234,6 +234,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
         draw(g);
     }
+
     //user input
     @Override
     public void actionPerformed(ActionEvent e) {
