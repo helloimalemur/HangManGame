@@ -74,7 +74,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 
-
     public boolean checkGuess() {
         //grab user guess and create char[] of corresponding size
         String guess = textField.getText();
