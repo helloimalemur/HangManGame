@@ -196,6 +196,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         startGame();
     }
     public void gameOver() {
+        for (int k = 0; k < maskedWord.length; k++) {
+            maskedWord[k] = wordArray[k];
+        }
         running = false;
     }
     public void playerWon() {
