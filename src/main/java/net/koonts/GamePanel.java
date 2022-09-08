@@ -77,18 +77,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public boolean checkGuess() {
         String guess = textField.getText();
-        wordArray.toString().replace("[", "");
-        wordArray.toString().replace("]", "");
-        wordArray.toString().replace(",", "");
+
         if (guess.length()>0) {
             guessArray = new char[guess.length()];
         } else {
             guessArray = new char[0];
         }
-
         for (int i = 0; i < guess.length(); i++) {
             guessArray[i] = guess.charAt(i);
         }
+
+
         System.out.println(wordArray);
         System.out.println(guessArray);
         int truths = 0;
@@ -164,27 +163,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return matchWord;
     }
 
-    public void newWord() {
+    public void newWord() { //get new word from api, remove extra characters, and return as char[]
         try {
-            word = FetchWord.genNewWord();
+            word = FetchWord.genNewWord();//word from api example returned word ['cardinal']
         } catch(IOException | InterruptedException e) {
             System.out.println(e);
         }
-        wordArray = new char[word.length()-4];
-        maskedWord = new char[word.length()-4];
-        formattedWord = new char[word.length()-4];
+        wordArray = new char[word.length()-4];//
+        maskedWord = new char[word.length()-4];//create char[] remove 4 unwanted characters by iterating over
+        formattedWord = new char[word.length()-4]; //
         int j = 0;
         for(int i=2;i<word.length()-2;i++){
-            formattedWord[j] = word.charAt(i);
+            wordArray[j] = word.charAt(i);
+            maskedWord[j] = '-';
             j = j+1;
 
         }
-
-        for(int i=0;i<(word.length()-4);i++) {
-            wordArray[i] = formattedWord[i];
-            maskedWord[i] = '-';
-        }
-        System.out.println(wordArray);
+        wordArray.toString().replace("[", "");
+        wordArray.toString().replace("]", "");
+        wordArray.toString().replace(",", "");
     }
 
     public void resetGame() {
