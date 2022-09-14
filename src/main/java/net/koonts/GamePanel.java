@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     GamePanel() {
         this.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
-        this.setBackground(Color.green);
+        this.setBackground(Color.black);
         this.setVisible(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         Font textAndButton = new Font("Ink Free", Font.BOLD, 15);
