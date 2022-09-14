@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     GamePanel() {
         this.setSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
-        this.setBackground(Color.black);
+        this.setBackground(Color.green);
         this.setVisible(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         Font textAndButton = new Font("Ink Free", Font.BOLD, 15);
@@ -230,8 +230,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     }
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paint(Graphics g) {
+        super.paint(g);
         draw(g);
     }
 
